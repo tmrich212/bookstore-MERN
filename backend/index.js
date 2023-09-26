@@ -1,12 +1,13 @@
 import express from "express";
 import mongoose from "mongoose";
 import { PORT, mongoDBUrl } from "./config.js";
-import { Book } from "./models/bookModels.js";
+import bookRoutes from "./routes/bookRoutes.js";
+
 
 const app = express();
 
 //middleware needed to allow express to use json - parsing request body
-app.use(express.json())
+app.use(express.json());
 
 //we need a route to use GET for server
 app.get("/", (request, response) => {
@@ -14,44 +15,7 @@ app.get("/", (request, response) => {
   return response.status(234).send("Welcome to MERN Stack Bookstore!");
 });
 
-//route to save new book - this is asynchronous from working with mongoose
-app.post("/books", async (request, response) => {
-  try {
-   if(!request.body.title ||
-    !request.body.author ||
-    !request.body.publishYear){
-        return response.status(400).send({ message: "Send all required fields: title, author, publishYear" })
-    }
-    //create variable for newBook
-    const newBook = {
-        title: request.body.title,
-        author: request.body.author,
-        publishYear: request.body.publishYear,
-    };
-
-    const book = await Book.create(newBook);
-    //send new book to client
-    return response.status(201).send(book);
-
-  } catch (error) {
-    console.log(error.message);
-    response.status(500).send({ message: error.message });
-  }
-});
-
-//route for Get All Books from DB 
-app.get('/books', async (request, response) => {
-    try {
-        const books = await Book.find({});
-        return response.status(200).json({
-            count: books.length,
-            data: books
-        });
-    }catch(error){
-        console.log(error.message);
-        response.status(500).send({message: error.message})
-    }
-})
+app.use('/books', bookRoutes)
 
 //use mongoose to connect to DB
 mongoose
@@ -67,4 +31,4 @@ mongoose
     console.log(error);
   });
 
-//mongoose object data library model for mongoDB
+//mongoose is an object data library model for mongoDB

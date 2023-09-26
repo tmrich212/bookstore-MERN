@@ -1,4 +1,5 @@
 import express from "express";
+import cors from 'cors';
 import mongoose from "mongoose";
 import { PORT, mongoDBUrl } from "./config.js";
 import bookRoutes from "./routes/bookRoutes.js";
@@ -8,6 +9,9 @@ const app = express();
 
 //middleware needed to allow express to use json - parsing request body
 app.use(express.json());
+
+//Middleware to handle CORS POLICY - Cross Origin Resource Sharing
+app.use(cors())
 
 //we need a route to use GET for server
 app.get("/", (request, response) => {

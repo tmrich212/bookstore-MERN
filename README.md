@@ -1,0 +1,1 @@
+A bookstore application built with the MERN stack. A full deep dive into using MongoDB, Mongoose, and Express to connect to the server. 

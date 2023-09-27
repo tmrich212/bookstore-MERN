@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 import { PORT, mongoDBUrl } from "./config.js";
 import bookRoutes from "./routes/bookRoutes.js";
 
-require('dotenv').config();
+require("dotenv").config();
 
 const app = express();
 

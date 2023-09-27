@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import { PORT, mongoDBUrl } from "./config.js";
 import bookRoutes from "./routes/bookRoutes.js";
 
+require('dotenv').config();
 
 const app = express();
 
@@ -27,7 +28,7 @@ mongoose
   .then(() => {
     console.log("App connected to database");
     //listen on static port
-    app.listen(PORT, () => {
+    app.listen(process.env.PORT || 5555, () => {
       console.log(`App is listening to port: ${PORT}`);
     });
   })
